@@ -1,0 +1,191 @@
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f8;
+    color: #222;
+}
+
+header {
+    background-color: #1e3a5f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 15px 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
+#courses,
+#testimonials,
+#events,
+#contact {
+    padding: 40px 20px;
+    margin: 20px auto;
+    max-width: 1100px;
+}
+
+section h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+
+.courses-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.course {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.course img {
+    width: 100%;
+    max-width: 300px;
+    height: 180px;
+    object-fit: cover;
+}
+
+.course h3 {
+    margin: 15px 0 10px;
+}
+
+.course p {
+    line-height: 1.6;
+}
+
+
+.testimonials-container {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.testimonial {
+    flex: 1;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.testimonial p {
+    line-height: 1.6;
+}
+
+.testimonial h3 {
+    text-align: right;
+}
+
+#events {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+#events ul {
+    line-height: 2;
+}
+
+#contact {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#contact a {
+    color: #1e3a5f;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #1e3a5f;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 600px) {
+
+    .courses-container {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-container {
+        flex-direction: column;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    header {
+        padding: 15px;
+    }
+
+    #courses,
+    #testimonials,
+    #events,
+    #contact {
+        padding: 25px 15px;
+    }
+}
+
+@media print {
+
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    header,
+    footer {
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+    }
+
+    nav a {
+        color: black;
+    }
+
+    .course,
+    .testimonial,
+    #events,
+    #contact {
+        border: 1px solid black;
+    }
+}
+
