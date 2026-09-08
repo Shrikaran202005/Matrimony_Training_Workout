@@ -7,7 +7,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f6f8;
+    background-color: #8ca7c3;
     color: #222;
 }
 
@@ -50,7 +50,9 @@ nav a:hover {
 
 section h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin: 0 0 15px;
+     font-size: 40px;
+     /* margin-bottom: 20px; */
 }
 
 
@@ -61,7 +63,7 @@ section h2 {
 }
 
 .course {
-    background-color: white;
+    background-color: rgb(142, 160, 239);
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 8px;
@@ -73,14 +75,18 @@ section h2 {
     max-width: 300px;
     height: 180px;
     object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ccc;
 }
 
 .course h3 {
     margin: 15px 0 10px;
+    font-size: 20px;
 }
 
-.course p {
+.course p { 
     line-height: 1.6;
+    font-size: 15px;
 }
 
 
@@ -92,7 +98,7 @@ section h2 {
 
 .testimonial {
     flex: 1;
-    background-color: white;
+    background-color: rgb(112, 168, 232);
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 8px;
@@ -107,17 +113,23 @@ section h2 {
 }
 
 #events {
-    background-color: white;
+    background-color: rgb(134, 159, 233);
     border: 1px solid #ccc;
     border-radius: 8px;
+    padding: 15px;
 }
 
 #events ul {
     line-height: 2;
+    font-size: 25px;
+}
+
+#events h2 {
+    margin-bottom: 5px;
 }
 
 #contact {
-    background-color: white;
+    background-color: rgb(169, 188, 249);
     border: 1px solid #ccc;
     border-radius: 8px;
     text-align: center;
@@ -126,6 +138,8 @@ section h2 {
 #contact a {
     color: #1e3a5f;
     font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
 }
 
 footer {
