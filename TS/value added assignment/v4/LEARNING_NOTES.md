@@ -1,0 +1,6 @@
+# Learning Notes: AI & Real-World Workflow
+
+1. **AI is a co-pilot, not an autopilot:** The AI generated the core boilerplate for the `AuthService` very quickly, but it lacked the architectural awareness of how `bcrypt` salts interact with database lookups. Blindly copying the code would have resulted in an un-queryable database state.
+2. **Context is everything:** A highly detailed prompt outlining strict security constraints (like 1-hour expiry and single-use rules) drastically reduced the amount of hallucinated or generic code the AI produced.
+3. **Security requires human review:** AI often misses edge cases like clearing token fields after use (single-use constraint) or preventing email enumeration on the request endpoint. The human developer is ultimately responsible for the security patterns.
+4. **Testing validates assumptions:** Writing the 6 automated tests proved that the edge cases (like token reuse and expiry) actually functioned as intended, which manual clicking might have missed.
