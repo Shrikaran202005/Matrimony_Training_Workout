@@ -1,0 +1,27 @@
+<div class="ride-card">
+
+
+    <img [src]="image()" width="120" />
+
+
+    <h3>
+        {{ rideType() }}
+    </h3>
+
+
+    <p>
+        Estimated Fare:
+        ₹{{ fare() }}
+    </p>
+
+
+    <button (click)="selectRide()">
+
+
+        Select Ride
+
+
+    </button>
+
+
+</div>  
