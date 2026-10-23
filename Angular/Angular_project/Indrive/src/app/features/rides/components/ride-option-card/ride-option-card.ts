@@ -1,8 +1,9 @@
 import { Component, input, output } from '@angular/core';
+import { SurgeHighlight } from '../../../shared/directives/surge-highlight';
 
 @Component({
   selector: 'app-ride-option-card',
-  imports: [],
+  imports: [SurgeHighlight],
   templateUrl: './ride-option-card.html',
   styleUrl: './ride-option-card.css',
 })

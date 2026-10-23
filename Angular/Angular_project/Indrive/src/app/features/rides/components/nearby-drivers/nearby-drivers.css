@@ -1,0 +1,88 @@
+.drivers-container {
+    padding: 24px;
+    background-color: #0f172a;
+    color: #f8fafc;
+    font-family: system-ui, -apple-system, sans-serif;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.drivers-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #38bdf8;
+}
+
+.category-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.category-buttons button {
+    background-color: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-buttons button:hover {
+    background-color: #334155;
+    color: #ffffff;
+    border-color: #38bdf8;
+}
+
+.drivers-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.driver-card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 16px;
+    width: 240px;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.driver-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.1);
+    border-color: #0ea5e9;
+}
+
+.driver-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #f1f5f9;
+}
+
+.driver-card p {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.driver-card .online {
+    color: #4ade80;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.driver-card .offline {
+    color: #f87171;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
