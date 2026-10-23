@@ -1,0 +1,15 @@
+<div class="event-list-container">
+    <h2>Event Dashboard</h2>
+
+    <app-event-filter (filterChange)="onFilterChange($event)"></app-event-filter>
+
+    <div class="events-grid">
+        <app-event-card
+            *ngFor="let event of filteredEvents"
+            [event]="event"
+            (eventClick)="onEventClick($event)">
+        </app-event-card>
+    </div>
+
+    <p class="no-events-message" *ngIf="filteredEvents.length === 0">No events found</p>
+</div>

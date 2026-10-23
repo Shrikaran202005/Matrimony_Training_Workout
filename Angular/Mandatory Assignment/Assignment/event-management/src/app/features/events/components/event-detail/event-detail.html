@@ -1,0 +1,35 @@
+<div class="event-detail-container" *ngIf="event; else notFound">
+
+    <div class="detail-card">
+        <h2>{{ event.title }}</h2>
+
+        <div class="detail-meta">
+            <div class="meta-item">
+                <label>Date</label>
+                <span>{{ event.date }}</span>
+            </div>
+            <div class="meta-item">
+                <label>Category</label>
+                <span class="category-pill {{ event.category }}">{{ event.category | uppercase }}</span>
+            </div>
+            <div class="meta-item">
+                <label>Location</label>
+                <span>{{ event.location }}</span>
+            </div>
+        </div>
+
+        <div class="detail-description">
+            <label>Description</label>
+            <p>{{ event.description }}</p>
+        </div>
+    </div>
+</div>
+
+<ng-template #notFound>
+    <div class="event-detail-container">
+        <div class="not-found">
+            <h2>No events found</h2>
+            <p>The event you're looking for doesn't exist.</p>
+        </div>
+    </div>
+</ng-template>

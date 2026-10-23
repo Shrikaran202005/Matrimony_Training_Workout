@@ -1,0 +1,6 @@
+<div class="event-card" (click)="onClick()">
+    <h3>{{ event.title }}</h3>
+    <p><strong>Date:</strong> {{ event.date }}</p>
+    <p><strong>Category:</strong> {{ event.category | uppercase }}</p>
+    <span class="category-badge {{ event.category }}">{{ event.category }}</span>
+</div>

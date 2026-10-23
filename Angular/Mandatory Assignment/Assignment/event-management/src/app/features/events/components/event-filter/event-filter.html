@@ -1,0 +1,14 @@
+
+<div class="event-filter">
+    <input type="text" placeholder="Search by title..." [(ngModel)]="search" (ngModelChange)="onModelChange()" />
+
+    <select [(ngModel)]="category" (ngModelChange)="onModelChange()">
+        <option value="">All</option>
+        <option value="tech">tech</option>
+        <option value="hr">hr</option>
+        <option value="fun">fun</option>
+        <option value="training">training</option>
+    </select>
+
+    <button (click)="onClearFilters()">Clear</button>
+</div>
