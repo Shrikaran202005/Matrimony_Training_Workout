@@ -1,0 +1,26 @@
+import { Component } from '@angular/core';
+import { CurrencyPipe, DatePipe, TitleCasePipe, UpperCasePipe,AsyncPipe } from '@angular/common';
+import { interval } from 'rxjs/internal/observable/interval';
+import { map } from 'rxjs/internal/operators/map';
+
+@Component({
+  selector: 'app-fare-summary',
+  imports: [TitleCasePipe, CurrencyPipe, DatePipe,UpperCasePipe,AsyncPipe],
+  templateUrl: './fare-summary.html',
+  styleUrl: './fare-summary.css',
+})
+export class FareSummary {
+
+ customerName = 'sudha valli';
+
+
+  totalFare = 348.567;
+
+
+  rideDate = new Date();
+
+
+  rideStatus = 'ride confirmed';
+  liveFare$ = interval(2000).pipe(map((value) => 100 + value * 20));
+
+}
