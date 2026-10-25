@@ -1,0 +1,77 @@
+<section class="container py-5">
+
+
+    <h2 class="text-center mb-5">
+
+
+        Moviqo Service Dashboard
+
+
+    </h2>
+
+
+    <div class="row g-4"  >
+
+
+        @for(service of services; track service.title) {
+
+
+        <div class="col-sm-12 col-md-6 col-lg-4"  >
+
+
+            <div class="card shadow-md h-100" appSurgeHighlight>
+
+
+                <div class="card-body" >
+
+
+                    <h4 class="card-title">
+
+
+                        {{ service.title }}
+
+
+                    </h4>
+
+
+                    <p class="card-text">
+
+
+                        Total Rides:
+                        {{ service.rides }}
+
+
+                    </p>
+
+
+                    <p class="card-text">
+
+
+                        Earnings:
+                        ₹{{ service.earnings }}
+
+
+                    </p>
+
+                    <!-- <button class="btn btn-primary" style="color: rgb(230, 246, 1);">Select Ride</button> -->
+                    <button type="button" class="btn btn-primary">Select Ride</button>
+            <!-- <button type="button" class="btn btn-info">Info</button> -->
+<!-- <button type="button" class="btn btn-light">Light</button> -->
+<!-- <button type="button" class="btn btn-dark">Dark</button> -->
+    
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        }
+
+
+    </div>
+
+
+</section>

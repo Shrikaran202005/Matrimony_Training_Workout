@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { CurrencyPipe, DatePipe, TitleCasePipe, UpperCasePipe,AsyncPipe } from '@angular/common';
 import { interval } from 'rxjs/internal/observable/interval';
 import { map } from 'rxjs/internal/operators/map';
+import { SurgeLevelPipe } from '../../../shared/pipes/surge-level-pipe';
 
 @Component({
   selector: 'app-fare-summary',
-  imports: [TitleCasePipe, CurrencyPipe, DatePipe,UpperCasePipe,AsyncPipe],
+  imports: [TitleCasePipe, CurrencyPipe, DatePipe,UpperCasePipe,AsyncPipe,SurgeLevelPipe],
   templateUrl: './fare-summary.html',
   styleUrl: './fare-summary.css',
 })
