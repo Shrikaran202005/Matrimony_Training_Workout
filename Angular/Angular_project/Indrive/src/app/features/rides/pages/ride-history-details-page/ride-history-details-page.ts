@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { Page404 } from '../../../shared/components/page-404/page-404';
 
 @Component({
   selector: 'app-ride-history-details-page',
-  imports: [],
+  imports: [Page404],
   templateUrl: './ride-history-details-page.html',
   styleUrl: './ride-history-details-page.css',
 })
