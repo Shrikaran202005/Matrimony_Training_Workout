@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { RideSelection } from './features/rides/components/ride-selection/ride-selection';
 import { Home } from './features/home/pages/home/home';
+import { RideHistory } from './features/rides/components/ride-history/ride-history';
+import { RideHistoryDetailsPage } from './features/rides/pages/ride-history-details-page/ride-history-details-page';
 // import { NearbyDrivers } from './features/rides/components/nearby-drivers/nearby-drivers';
 // import { ServiceDashboard } from './features/dashboard/components/service-dashboard/service-dashboard';
 
@@ -32,6 +34,17 @@ export const routes: Routes = [
   {
     path:'service-dashboard',
     loadComponent: () => import('./features/dashboard/components/service-dashboard/service-dashboard').then(m => m.ServiceDashboard)
-  }
+  },
+  {
+    path: 'ride-history',
+    component:RideHistory,
+  },
+
+
+  {
+    path: 'ride-history/:id',
+    component: RideHistoryDetailsPage,
+  },
+
 ];
 
