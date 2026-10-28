@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Navbar } from './features/shared/components/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
-// import { RouterOutlet } from '@angular/router';
 // import { Home } from './features/home/pages/home/home';
 // import { RideBooking } from './features/rides/components/ride-booking/ride-booking';
 // import { RideSelection } from './features/rides/components/ride-selection/ride-selection';

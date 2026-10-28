@@ -1,0 +1,49 @@
+.analytics-container {
+
+
+    padding: 50px;
+}
+
+
+.analytics-grid {
+
+
+    display: flex;
+
+
+    gap: 20px;
+
+
+    justify-content: center;
+
+
+    flex-wrap: wrap;
+    
+}
+
+
+.analytics-card {
+
+
+    width: 250px;
+
+
+    padding: 25px;
+
+
+    border-radius: 12px;
+
+
+    /* box-shadow: 0 0 10px rgba(227, 224, 224, 0.1); */
+
+
+    text-align: center;
+
+    background-color: white;
+}
+
+h2{
+    
+    text-align: center;
+    padding-bottom: 20px;
+}
