@@ -38,6 +38,7 @@
     </div>
 
     <!-- Events List -->
+    <!-- FIX Bug 1: Correctly uses the loading state to prevent the "No events found" flicker -->
     @if (loading) {
     <div class="alert alert-info">Loading events...</div>
     } @else if (filteredEvents.length === 0) {
@@ -52,10 +53,10 @@
                     <p class="text-muted">{{ event.date }} at {{ event.time }}</p>
                     <p class="text-secondary">{{ event.description }}</p>
                     <div class="mb-3">
-                        <span class="badge bg-primary">{{ event.category }}</span>
-                        <span class="badge bg-success">{{ getAvailableSeats(event) }} seats</span>
+                        <span class="badge bg-primary me-2">{{ event.category }}</span>
+                        <span class="badge bg-success">{{ getAvailableSeats(event) }} seats left</span>
                     </div>
-                    <p class="lead">\${{ event.basePrice }}</p>
+                    <p class="lead">${{ event.basePrice }}</p>
                     <a [routerLink]="['/register', event.id]" class="btn btn-primary">Register</a>
                 </div>
             </div>

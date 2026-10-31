@@ -12,15 +12,15 @@
             <h1>{{ event.name }}</h1>
             <p class="text-muted">{{ event.date }} at {{ event.time }}</p>
             <p>{{ event.description }}</p>
-            <p class="lead">Base Price: <strong>\${{ event.basePrice }}</strong></p>
+            <p class="lead">Base Price: <strong>${{ event.basePrice }}</strong></p>
         </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5>Price Summary</h5>
-                    <p>Subtotal: <strong>\${{ subtotal() }}</strong></p>
-                    <p>Discount: -<strong>\${{ discount() }}</strong></p>
-                    <h4 class="text-primary">Total: \${{ total() }}</h4>
+                    <p>Subtotal: <strong>${{ subtotal() }}</strong></p>
+                    <p>Discount: -<strong>${{ discount() }}</strong></p>
+                    <h4 class="text-primary">Total: ${{ total() }}</h4>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                     <select class="form-select" formControlName="ticketType">
                         <option value="">Select ticket type</option>
                         @for (ticket of ticketTypes; track ticket.name) {
-                        <option [value]="ticket.name">{{ ticket.name }} - \${{ ticket.price }}</option>
+                        <option [value]="ticket.name">{{ ticket.name }} - ${{ ticket.price }}</option>
                         }
                     </select>
                     @if (registerForm.get('ticketType')?.touched && registerForm.get('ticketType')?.invalid) {
@@ -55,17 +55,27 @@
                 <div class="mb-3">
                     <label class="form-label">Number of Attendees (1-10)</label>
                     <input type="number" class="form-control" formControlName="numAttendees" min="1" max="10">
-                    @if (registerForm.get('numAttendees')?.invalid) {
-                    <small class="text-danger">Select 1-10 attendees</small>
+                
+                    <!-- Check specifically for the capacity limit error -->
+                    @if (registerForm.get('numAttendees')?.hasError('max')) {
+                    <small class="text-danger">Only {{ registerForm.get('numAttendees')?.errors?.['max']?.max }} seats available</small>
+                    }
+                    <!-- Otherwise show the generic error -->
+                    @else if (registerForm.get('numAttendees')?.invalid) {
+                    <small class="text-danger">Select a valid number of attendees</small>
                     }
                 </div>
 
                 <!-- Coupon Code -->
+                <!-- FIX Bug 9: Added the error display for invalid coupons -->
                 <div class="mb-3">
                     <label class="form-label">Coupon Code (Optional)</label>
                     <input type="text" class="form-control" formControlName="couponCode"
                         placeholder="SAVE10, SAVE20, STUDENT">
-                    <small class="text-muted">Valid codes: SAVE10 (10%), SAVE20 (20%), STUDENT (15%)</small>
+                    <small class="text-muted d-block">Valid codes: SAVE10 (10%), SAVE20 (20%), STUDENT (15%)</small>
+                    @if (registerForm.get('couponCode')?.touched && registerForm.get('couponCode')?.hasError('invalidCoupon')) {
+                    <small class="text-danger">Invalid coupon code entered.</small>
+                    }
                 </div>
 
                 <!-- Attendee Details -->
@@ -74,7 +84,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h6>Attendee {{ i + 1 }}</h6>
-                        <div [formGroup]="attendees.at(i)">
+                        <div [formGroup]="getAttendeeFormGroup(i)">
                             <div class="mb-3">
                                 <label class="form-label">Name</label>
                                 <input type="text" class="form-control" formControlName="name">
@@ -102,17 +112,19 @@
                 }
 
                 <!-- Terms -->
+                <!-- FIX Bug 10: Added "touched" check so the error doesn't show before clicking -->
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" formControlName="terms" id="terms">
                     <label class="form-check-label" for="terms">
                         I agree to terms and conditions
                     </label>
-                    @if (registerForm.get('terms')?.invalid) {
-                    <small class="d-block text-danger">Must accept terms</small>
+                    @if (registerForm.get('terms')?.touched && registerForm.get('terms')?.invalid) {
+                    <small class="d-block text-danger mt-1">Must accept terms</small>
                     }
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="registerForm.invalid">
+                <!-- FIX Bug 4: Removed [disabled]="registerForm.invalid" so clicking triggers the validation errors -->
+                <button type="submit" class="btn btn-primary btn-lg w-100">
                     Complete Registration
                 </button>
             </form>

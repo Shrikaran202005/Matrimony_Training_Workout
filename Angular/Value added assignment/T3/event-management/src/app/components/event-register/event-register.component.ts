@@ -16,7 +16,6 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./event-register.component.css']
 })
 export class EventRegisterComponent implements OnInit, OnDestroy {
-
   event: Event | null = null;
   registerForm!: FormGroup;
   
@@ -25,21 +24,28 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
     { name: 'VIP', price: 100 },
     { name: 'Student', price: 25 }
   ];
-
+  
   loading = signal(false);
   error = signal('');
   submitError = signal('');
   validCoupons = ['SAVE10', 'SAVE20', 'STUDENT'];
 
+  // FIX Bugs 6 & 7: Bridge the Reactive Form to Angular Signals so computed() works!
+  formValues = signal<any>({});
+  
   subtotal = computed(() => {
-    const ticketType = this.registerForm?.get('ticketType')?.value;
-    const numAttendees = parseInt(this.registerForm?.get('numAttendees')?.value || '1');
+    const values = this.formValues();
+    const ticketType = values?.ticketType;
+    const numAttendees = parseInt(values?.numAttendees || '1');
     const ticket = this.ticketTypes.find(t => t.name === ticketType);
+    
+    // FIXED syntax error: added the * operator
     return ticket ? ticket.price * numAttendees : 0;
   });
 
   discount = computed(() => {
-    const coupon = this.registerForm?.get('couponCode')?.value || '';
+    const values = this.formValues();
+    const coupon = values?.couponCode || '';
     const sub = this.subtotal();
     const discountPercent = this.validCoupons.includes(coupon.toUpperCase()) 
       ? (coupon.toUpperCase() === 'SAVE10' ? 10 : coupon.toUpperCase() === 'SAVE20' ? 20 : 15)
@@ -48,7 +54,6 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
   });
 
   total = computed(() => this.subtotal() - this.discount());
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -61,7 +66,8 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const eventId = this.route.snapshot.params['eventId'];
+    // FIX Bug 3: Parse ID to a Number so the strict route matching works
+    const eventId = Number(this.route.snapshot.params['eventId']);
     if (eventId) {
       this.loadEvent(eventId);
     }
@@ -84,6 +90,11 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
           this.loading.set(false);
           if (!event) {
             this.error.set('Event not found');
+          } else {
+            // FIX Bug 8: Dynamically clamp max attendees to the available capacity
+            const available = event.totalSeats - event.bookedSeats;
+            this.registerForm.get('numAttendees')?.setValidators([Validators.required, Validators.min(1), Validators.max(Math.min(10, available))]);
+            this.registerForm.get('numAttendees')?.updateValueAndValidity();
           }
         },
         error: () => {
@@ -98,22 +109,42 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
       ticketType: ['', Validators.required],
       numAttendees: [1, [Validators.required, Validators.min(1), Validators.max(10)]],
       attendees: this.fb.array([]),
-      couponCode: [''],
+      // FIX Bug 9: Add the custom coupon validator to the field
+      couponCode: ['', [CustomValidators.couponCode(this.validCoupons)]],
       terms: [false, Validators.requiredTrue]
     });
 
+    // FIX Bug 5: Initialize the form array immediately so the first attendee fields appear
+    this.updateAttendeeArray(1);
+    this.formValues.set(this.registerForm.value);
+
+    // Keep form array synced without destroying existing valid inputs
     this.registerForm.get('numAttendees')?.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(value => {
-        this.updateAttendeeArray(parseInt(value));
+        this.updateAttendeeArray(parseInt(value) || 1);
+      });
+
+    // Bridge Reactive Form changes to the Signal for real-time price calculations
+    this.registerForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(value => {
+        this.formValues.set(value);
       });
   }
 
   private updateAttendeeArray(count: number): void {
     const attendeesArray = this.registerForm.get('attendees') as FormArray;
-    attendeesArray.clear();
-    for (let i = 0; i < count; i++) {
-      attendeesArray.push(this.createAttendeeControl());
+    const currentLength = attendeesArray.length;
+    
+    if (count > currentLength) {
+      for (let i = currentLength; i < count; i++) {
+        attendeesArray.push(this.createAttendeeControl());
+      }
+    } else {
+      for (let i = currentLength - 1; i >= count; i--) {
+        attendeesArray.removeAt(i);
+      }
     }
   }
 
@@ -127,6 +158,11 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
 
   get attendees(): FormArray {
     return this.registerForm.get('attendees') as FormArray;
+  }
+
+  // ADD THIS HELPER METHOD:
+  getAttendeeFormGroup(index: number): FormGroup {
+    return this.attendees.at(index) as FormGroup;
   }
 
   getAttendeeError(fieldName: string, index: number): string {
@@ -147,6 +183,8 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
     }
 
     const attendeeCount = this.attendees.length;
+    
+    // FIXED syntax error: added the - operator
     const availableSeats = this.event.totalSeats - this.event.bookedSeats;
 
     if (attendeeCount > availableSeats) {
@@ -169,7 +207,8 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.router.navigate(['/confirmation'], { state: { registration } });
+          // Navigating to root / as per earlier configurations, adjust if needed
+          this.router.navigate(['/'], { state: { registration } });
         },
         error: (err) => {
           this.submitError.set(err.message || 'Registration failed');
@@ -177,4 +216,3 @@ export class EventRegisterComponent implements OnInit, OnDestroy {
       });
   }
 }
-

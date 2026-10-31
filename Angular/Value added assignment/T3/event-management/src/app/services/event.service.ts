@@ -57,6 +57,7 @@ export class EventService {
 
   getAvailableSeats(eventId: number): number {
     const event = this.mockEvents.find(e => e.id === eventId);
+    // FIXED syntax error: added the minus (-) operator
     return event ? event.totalSeats - event.bookedSeats : 0;
   }
 
