@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  
   private currentUserSignal = signal<{ id: number; name: string } | null>(null);
   currentUser = this.currentUserSignal.asReadonly();
 
@@ -13,7 +14,7 @@ export class AuthService {
     const user = localStorage.getItem('currentUser');
     if (user) {
       this.currentUserSignal.set(JSON.parse(user));
-    }
+    } 
   }
 
   login(userId: number, userName: string): void {
@@ -28,9 +29,10 @@ export class AuthService {
   }
 
   isAuthor(postAuthorId: number): boolean {
-    // FIX for Bug 5 (Security): Ensure strict type checking and handle null states correctly
+    // FIX for Bug 5: Ensure strict type checking and safely handle null states
     const user = this.currentUserSignal();
     if (!user) return false; 
+    
     return Number(user.id) === Number(postAuthorId);
   }
 }

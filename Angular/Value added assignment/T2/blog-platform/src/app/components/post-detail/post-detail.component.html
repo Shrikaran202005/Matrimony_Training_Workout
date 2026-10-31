@@ -23,7 +23,7 @@
 
         <div class="mt-4">
             @if (canEdit()) {
-            <button class="btn btn-warning me-2">Edit</button>
+            <button class="btn btn-warning me-2" (click)="editPost()">Edit</button>
             <button class="btn btn-danger" (click)="deletePost()">Delete</button>
             }
         </div>

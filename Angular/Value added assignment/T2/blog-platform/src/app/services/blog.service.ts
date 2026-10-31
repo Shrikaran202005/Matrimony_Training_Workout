@@ -13,6 +13,7 @@ export class BlogService {
     { id: 5, title: 'Healthy Eating Habits', content: 'A balanced diet is essential for good health and wellness...', author: 'Tom Brown', authorId: 5, date: '2024-01-11', category: 'Lifestyle', commentCount: 4 }
   ];
 
+ 
   private mockComments: Map<number, Comment[]> = new Map([
     [1, [
       { id: 1, postId: 1, author: 'Alice', email: 'alice@example.com', content: 'Great tutorial! This helped me understand Angular better.', date: '2024-01-15' },
@@ -27,13 +28,23 @@ export class BlogService {
       { id: 8, postId: 2, author: 'Henry', email: 'henry@example.com', content: 'Do you have examples for more complex scenarios?', date: '2024-01-12' }
     ]],
     [3, [
-      { id: 9, postId: 3, author: 'Ivy', email: 'ivy@example.com', content: 'I love the minimalist approach.', date: '2024-01-13' }
+      { id: 9, postId: 3, author: 'Ivy', email: 'ivy@example.com', content: 'I love the minimalist approach.', date: '2024-01-13' },
+      { id: 10, postId: 3, author: 'Jack', email: 'jack@example.com', content: 'Accessibility should always be a priority.', date: '2024-01-12' },
+      { id: 11, postId: 3, author: 'Kate', email: 'kate@example.com', content: 'Great design examples!', date: '2024-01-11' },
+      { id: 12, postId: 3, author: 'Leo', email: 'leo@example.com', content: 'Any tools you recommend for responsive design?', date: '2024-01-10' },
+      { id: 13, postId: 3, author: 'Mia', email: 'mia@example.com', content: 'This aligns with our design philosophy.', date: '2024-01-09' },
+      { id: 14, postId: 3, author: 'Noah', email: 'noah@example.com', content: 'Beautiful and functional design.', date: '2024-01-08' },
+      { id: 15, postId: 3, author: 'Olivia', email: 'olivia@example.com', content: 'Can you write about dark mode design?', date: '2024-01-07' }
     ]],
     [4, [
-      { id: 16, postId: 4, author: 'Peter', email: 'peter@example.com', content: 'Japan is definitely on my bucket list now.', date: '2024-01-12' }
+      { id: 16, postId: 4, author: 'Peter', email: 'peter@example.com', content: 'Japan is definitely on my bucket list now.', date: '2024-01-12' },
+      { id: 17, postId: 4, author: 'Quinn', email: 'quinn@example.com', content: 'When did you go? Any tips for first-time travelers?', date: '2024-01-11' }
     ]],
     [5, [
-      { id: 18, postId: 5, author: 'Rachel', email: 'rachel@example.com', content: 'Great advice! I started following these habits.', date: '2024-01-11' }
+      { id: 18, postId: 5, author: 'Rachel', email: 'rachel@example.com', content: 'Great advice! I started following these habits.', date: '2024-01-11' },
+      { id: 19, postId: 5, author: 'Steven', email: 'steven@example.com', content: 'More tips on meal planning would be helpful.', date: '2024-01-10' },
+      { id: 20, postId: 5, author: 'Tina', email: 'tina@example.com', content: 'This is exactly what I needed to hear.', date: '2024-01-09' },
+      { id: 21, postId: 5, author: 'Uma', email: 'uma@example.com', content: 'Thanks for the motivation!', date: '2024-01-08' }
     ]]
   ]);
 

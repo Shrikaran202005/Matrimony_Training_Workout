@@ -156,6 +156,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  editPost(): void {
+    alert('Edit functionality is just a mock for this assignment!');
+  }
   getFieldError(fieldName: string): string {
     const field = this.commentForm.get(fieldName);
     if (field?.hasError('required')) return `${fieldName} is required`;
