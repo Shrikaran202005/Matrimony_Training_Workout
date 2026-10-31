@@ -1,0 +1,94 @@
+<div class="container mt-5">
+    <a routerLink="/" class="btn btn-outline-secondary mb-4">&larr; Back to Posts</a>
+
+    @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+    }
+
+    <!-- Post Details Section -->
+    @if (loadingPost()) {
+    <div class="alert alert-info">Loading post...</div>
+    } @else if (post()) {
+    <article class="mb-5">
+        <header class="mb-4">
+            <h1>{{ post()!.title }}</h1>
+            <div class="text-muted">
+                <span>By {{ post()!.author }}</span>
+                <span class="ms-3">{{ post()!.date }}</span>
+                <span class="badge bg-primary ms-3">{{ post()!.category }}</span>
+            </div>
+        </header>
+
+        <div class="lead">{{ post()!.content }}</div>
+
+        <div class="mt-4">
+            @if (canEdit()) {
+            <button class="btn btn-warning me-2">Edit</button>
+            <button class="btn btn-danger" (click)="deletePost()">Delete</button>
+            }
+        </div>
+    </article>
+    }
+
+    <!-- Comments Section with @defer -->
+    @if (post()) {
+    @defer (when commentsLoaded()) {
+    <section class="comments">
+        <h3 class="mb-4">Comments: {{ commentCount() }}</h3>
+
+        <!-- FIX for Bug 4: Loop through the signal's value -->
+        @if (comments().length === 0) {
+        <p class="text-muted">No comments yet. Be the first!</p>
+        } @else {
+        @for (comment of comments(); track comment.id) {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ comment.author }}</h5>
+                <p class="text-muted small">{{ comment.date }}</p>
+                <p>{{ comment.content }}</p>
+            </div>
+        </div>
+        }
+        }
+    </section>
+    } @placeholder {
+    <p>Loading comments...</p>
+    }
+
+    <!-- Add Comment Form -->
+    <section class="mt-5">
+        <h4>Add a Comment</h4>
+        <form [formGroup]="commentForm" (ngSubmit)="submitComment()">
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" formControlName="author">
+                @if (commentForm.get('author')?.touched && commentForm.get('author')?.invalid) {
+                <small class="text-danger">{{ getFieldError('author') }}</small>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" formControlName="email">
+                @if (commentForm.get('email')?.touched && commentForm.get('email')?.invalid) {
+                <small class="text-danger">{{ getFieldError('email') }}</small>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Comment</label>
+                <textarea class="form-control" formControlName="content" rows="4"></textarea>
+                @if (commentForm.get('content')?.touched && commentForm.get('content')?.invalid) {
+                <small class="text-danger">{{ getFieldError('content') }}</small>
+                }
+            </div>
+
+            <!-- FIX for Bug 3: Removed [disabled] so users can click and trigger validation errors -->
+            <button type="submit" class="btn btn-primary">
+                Post Comment
+            </button>
+        </form>
+    </section>
+    }
+</div>
