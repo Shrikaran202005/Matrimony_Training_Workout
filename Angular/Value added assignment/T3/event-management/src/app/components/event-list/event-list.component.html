@@ -1,0 +1,66 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Upcoming Events</h1>
+
+    @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+    }
+
+    <!-- Search and Filter Section -->
+    <div class="card mb-4 p-4">
+        <h5>Search & Filter Events</h5>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <input type="text" class="form-control" [(ngModel)]="searchQuery" (input)="onSearch()"
+                    placeholder="Search events...">
+            </div>
+            <div class="col-md-3 mb-3">
+                <select class="form-select" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+                    <option value="">All Categories</option>
+                    @for (cat of categories; track cat) {
+                    <option [value]="cat">{{ cat }}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label class="form-label">Min Price: ${{ minPrice }}</label>
+                <input type="range" class="form-range" min="0" max="200" [(ngModel)]="minPrice"
+                    (change)="applyFilters()">
+            </div>
+            <div class="col-md-2 mb-3">
+                <label class="form-label">Max Price: ${{ maxPrice }}</label>
+                <input type="range" class="form-range" min="0" max="200" [(ngModel)]="maxPrice"
+                    (change)="applyFilters()">
+            </div>
+            <div class="col-md-2 mb-3">
+                <button class="btn btn-secondary w-100" (click)="resetFilters()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events List -->
+    @if (loading) {
+    <div class="alert alert-info">Loading events...</div>
+    } @else if (filteredEvents.length === 0) {
+    <div class="alert alert-warning">No events found</div>
+    } @else {
+    <div class="row">
+        @for (event of filteredEvents; track event.id) {
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="text-muted">{{ event.date }} at {{ event.time }}</p>
+                    <p class="text-secondary">{{ event.description }}</p>
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{ event.category }}</span>
+                        <span class="badge bg-success">{{ getAvailableSeats(event) }} seats</span>
+                    </div>
+                    <p class="lead">\${{ event.basePrice }}</p>
+                    <a [routerLink]="['/register', event.id]" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+</div>
