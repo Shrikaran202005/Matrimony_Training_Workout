@@ -1,0 +1,49 @@
+<div class="container mt-5">
+    <h1>Student Feedback</h1>
+
+    <!-- Filters -->
+    <div class="card mb-4 p-3">
+        <div class="row">
+            <div class="col-md-4">
+                <label>Filter by Rating</label>
+                <select class="form-select" [(ngModel)]="selectedRating" (change)="onFilterChange()">
+                    <option value="0">All Ratings</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="3">3+ Stars</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Filter by Course</label>
+                <select class="form-select" [(ngModel)]="selectedCourse" (change)="onFilterChange()">
+                    <option value="">All Courses</option>
+                    @for (course of courses; track course) {
+                    <option [value]="course">{{ course }}</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Average Rating</label>
+                <div class="alert alert-info">
+                    {{ getAverageRating(selectedCourse) }} / 5
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback List -->
+    <div class="row">
+        @for (feedback of feedbacks; track feedback.id) {
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ feedback.course }}</h5>
+                    <p class="text-warning">Rating: {{ feedback.rating }} / 5</p>
+                    <p class="card-text">{{ feedback.comment }}</p>
+                    <small class="text-muted">{{ feedback.date }}</small>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
