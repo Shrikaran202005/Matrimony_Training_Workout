@@ -1,0 +1,30 @@
+<div class="poll-container">
+    <h2>{{ pollQuestion }}</h2>
+
+    <div class="options-list">
+        @for (option of options(); track option.id) {
+        <div class="option-item">
+            <div class="option-header">
+                <button (click)="vote(option.id)" [disabled]="hasVoted()" class="vote-btn">
+                    Vote for {{ option.name }}
+                </button>
+            </div>
+
+            <!-- Live Results shown after voting or if votes exist -->
+            <div class="results" *ngIf="hasVoted()">
+                <span class="result-text">
+                    {{ option.name }} - {{ getPercentage(option.votes) }}% ({{ option.votes }} votes)
+                </span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" [style.width.%]="getPercentage(option.votes)"></div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+    <div class="poll-footer">
+        <p>Total Votes: {{ totalVotes() }}</p>
+        <button (click)="resetPoll()" class="reset-btn">Reset Poll</button>
+    </div>
+</div>
