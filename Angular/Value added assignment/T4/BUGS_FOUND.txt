@@ -1,0 +1,33 @@
+Assignment 4: Student Feedback System
+BUGS_REPORT
+Bug 1: Service method name mismatch
+   - Issue: The component called 'getAll()', but the service defined 'getFeedbacks()'.
+   - Fix: Renamed 'getFeedbacks()' to 'getAll()' in feedback.service.ts to match the component call.
+
+Bug 2: Filter logic backwards
+   - Issue: The 'filterByRating' method returned ratings less than or equal to the selected value (<=).
+   - Fix: Updated the logic to use greater than or equal to (>=) so it correctly shows the selected rating or higher.
+
+Bug 3: filterByCourse returns wrong type
+   - Issue: The method returned a static 'Feedback[]' array instead of an 'Observable<Feedback[]>'.
+   - Fix: Wrapped the filtered array in a BehaviorSubject and returned it as an Observable to match the service architecture.
+
+Bug 4: No rating validation in service
+   - Issue: The 'addFeedback' method accepted any numerical rating without enforcing the 1-5 star limit.
+   - Fix: Added a validation check in the service to throw an error if the rating falls outside the 1-5 range.
+
+Bug 5: getAverageRating hardcoded
+   - Issue: The 'getAverageRating' method statically returned '4.5' regardless of the actual data.
+   - Fix: Implemented a dynamic calculation using 'reduce' to accurately compute the average based on the currently filtered course list.
+
+Bug 6: Component method doesn't exist
+   - Issue: The HTML template called 'getAverageRating(selectedCourse)', but this method was missing from the component.
+   - Fix: Added the 'getAverageRating' method to feedback-list.component.ts to bridge the template and the service.
+
+Bug 7: Filters don't work together
+   - Issue: The 'onFilterChange' method used an if/else block, meaning only the rating OR the course filter applied, never both.
+   - Fix: Rewrote the filtering logic to evaluate both the rating and course conditions simultaneously against the original dataset.
+
+Bug 8: No form validation
+   - Issue: The AddFeedback form lacked validation, accepting empty submissions and invalid ratings.
+   - Fix: Imported ReactiveFormsModule, implemented form validators (Validators.required, Validators.min(1), Validators.max(5)), and added a validity check before submission.

@@ -67,7 +67,6 @@ export class AddFeedbackComponent {
       this.feedbackService.addFeedback(this.feedbackForm.value);
       this.feedbackForm.reset();
     } else {
-      // Mark all fields as touched to trigger the UI validation messages
       this.feedbackForm.markAllAsTouched();
     }
   }
