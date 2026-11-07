@@ -121,7 +121,6 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (comment) => {
-          // Reactively update the signal array with the new comment
           this.comments.update(curr => [...curr, comment]);
           this.post.update(p => p ? { ...p, commentCount: p.commentCount + 1 } : null);
           this.commentForm.reset();

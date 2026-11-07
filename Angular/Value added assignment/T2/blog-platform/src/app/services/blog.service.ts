@@ -73,7 +73,6 @@ export class BlogService {
       date: new Date().toISOString().split('T')[0]
     };
     
-    // Create a new array reference to ensure Angular's change detection catches the update
     const updatedComments = [...comments, newComment];
     this.mockComments.set(postId, updatedComments);
     
