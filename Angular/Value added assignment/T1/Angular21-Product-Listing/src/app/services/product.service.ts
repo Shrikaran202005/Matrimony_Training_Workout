@@ -23,6 +23,14 @@ export class ProductService {
     return [...new Set(this.products.map(p => p.category))];
   }
 
+  getTotalCount(): number {
+    return this.products.length;
+  }
+
+  getCategoryCount(category: string): number {
+    return this.products.filter(p => p.category === category).length;
+  }
+
   filterByCategory(category: string): Observable<Product[]> {
     // FIX applied: Use 'of' from 'rxjs' to return an observable of the filtered array
     const filtered = this.products.filter(p => p.category === category);

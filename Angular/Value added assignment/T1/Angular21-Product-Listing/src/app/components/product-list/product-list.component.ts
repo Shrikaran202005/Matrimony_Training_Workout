@@ -19,6 +19,7 @@ export class ProductListComponent implements OnInit {
   categories: string[] = [];
   selectedCategory: string = '';
   totalCount: number = 0;
+  allProductsCount: number = 0;
   cartCount$!: Observable<number>; 
 
   constructor(
@@ -28,6 +29,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.categories = this.productService.getCategories();
+    this.allProductsCount = this.productService.getTotalCount();
     this.loadProducts();
     
     // FIX applied: cartCount$ is now initialized
@@ -50,6 +52,10 @@ export class ProductListComponent implements OnInit {
 
   onCategoryChange(): void {
     this.loadProducts();
+  }
+
+  getCategoryCount(category: string): number {
+    return this.productService.getCategoryCount(category);
   }
 
   addToCart(product: Product): void {

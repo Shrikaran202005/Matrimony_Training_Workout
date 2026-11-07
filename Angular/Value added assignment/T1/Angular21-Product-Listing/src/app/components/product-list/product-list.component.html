@@ -8,9 +8,9 @@
 
     <div class="filter-section mb-4">
         <select class="form-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
-            <option value="">All Products ({{ totalCount }})</option>
+            <option value="">All Products ({{ allProductsCount }})</option>
             @for (cat of categories; track cat) {
-            <option [value]="cat">{{ cat }}</option>
+            <option [value]="cat">{{ cat }} ({{ getCategoryCount(cat) }})</option>
             }
         </select>
     </div>
