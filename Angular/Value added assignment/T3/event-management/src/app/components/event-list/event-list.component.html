@@ -1,8 +1,8 @@
 <div class="container mt-5">
     <h1 class="mb-4">Upcoming Events</h1>
 
-    @if (error) {
-    <div class="alert alert-danger">{{ error }}</div>
+    @if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
     }
 
     <!-- Search and Filter Section -->
@@ -24,12 +24,12 @@
             <div class="col-md-2 mb-3">
                 <label class="form-label">Min Price: ${{ minPrice }}</label>
                 <input type="range" class="form-range" min="0" max="200" [(ngModel)]="minPrice"
-                    (change)="applyFilters()">
+                    (input)="applyFilters()" (change)="applyFilters()">
             </div>
             <div class="col-md-2 mb-3">
                 <label class="form-label">Max Price: ${{ maxPrice }}</label>
                 <input type="range" class="form-range" min="0" max="200" [(ngModel)]="maxPrice"
-                    (change)="applyFilters()">
+                    (input)="applyFilters()" (change)="applyFilters()">
             </div>
             <div class="col-md-2 mb-3">
                 <button class="btn btn-secondary w-100" (click)="resetFilters()">Reset</button>
@@ -38,14 +38,13 @@
     </div>
 
     <!-- Events List -->
-    <!-- FIX Bug 1: Correctly uses the loading state to prevent the "No events found" flicker -->
-    @if (loading) {
+    @if (loading()) {
     <div class="alert alert-info">Loading events...</div>
-    } @else if (filteredEvents.length === 0) {
+    } @else if (filteredEvents().length === 0) {
     <div class="alert alert-warning">No events found</div>
     } @else {
     <div class="row">
-        @for (event of filteredEvents; track event.id) {
+        @for (event of filteredEvents(); track event.id) {
         <div class="col-md-6 mb-4">
             <div class="card h-100">
                 <div class="card-body">
