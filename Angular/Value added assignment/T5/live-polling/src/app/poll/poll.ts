@@ -15,10 +15,8 @@ interface PollOption {
   styleUrls: ['./poll.css']
 })
 export class PollComponent {
-  // Question text
   pollQuestion = "Which frontend framework do you prefer?";
 
-  // State using signal()
   options = signal<PollOption[]>([
     { id: 1, name: "Angular", votes: 0 },
     { id: 2, name: "React", votes: 0 },
@@ -28,12 +26,10 @@ export class PollComponent {
 
   hasVoted = signal<boolean>(false);
 
-  // Derived state using computed()
   totalVotes = computed(() => {
     return this.options().reduce((sum, option) => sum + option.votes, 0);
   });
 
-  // Voting Logic
   vote(id: number): void {
     if (this.hasVoted()) return;
 
@@ -46,13 +42,11 @@ export class PollComponent {
     this.hasVoted.set(true);
   }
 
-  // Calculate percentage dynamically
   getPercentage(votes: number): number {
     if (this.totalVotes() === 0) return 0;
     return Math.round((votes / this.totalVotes()) * 100);
   }
 
-  // Reset functionality
   resetPoll(): void {
     this.options.update(currentOptions => 
       currentOptions.map(option => ({ ...option, votes: 0 }))

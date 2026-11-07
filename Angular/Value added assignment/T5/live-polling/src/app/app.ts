@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PollComponent } from './component/poll/poll'; 
+import { PollComponent } from './poll/poll';
 
 @Component({
   selector: 'app-root',
