@@ -23,7 +23,7 @@ header h1 {
 }
 
 nav {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     gap: 25px;
 }
