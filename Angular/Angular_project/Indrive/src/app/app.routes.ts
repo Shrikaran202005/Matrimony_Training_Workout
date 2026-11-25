@@ -3,6 +3,7 @@ import { RideSelection } from './features/rides/components/ride-selection/ride-s
 import { Home } from './features/home/pages/home/home';
 import { RideHistory } from './features/rides/components/ride-history/ride-history';
 import { RideHistoryDetailsPage } from './features/rides/pages/ride-history-details-page/ride-history-details-page';
+import { DriverApiDemo } from './features/drivers/components/driver-api-demo/driver-api-demo';
 // import { NearbyDrivers } from './features/rides/components/nearby-drivers/nearby-drivers';
 // import { ServiceDashboard } from './features/dashboard/components/service-dashboard/service-dashboard';
 
@@ -44,6 +45,11 @@ export const routes: Routes = [
   {
     path: 'ride-history/:id',
     component: RideHistoryDetailsPage,
+  },
+
+  {
+    path: 'driver-api',
+    component: DriverApiDemo,
   },
 
 ];
