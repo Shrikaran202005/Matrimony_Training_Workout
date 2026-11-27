@@ -1,0 +1,26 @@
+BUG FIXES REPORT - E-Commerce Order System (Node.js + TS)
+File Modified: src/services/order.service.ts
+
+BUG 1: Missing Inventory Validation
+- Location: OrderService.createOrder()
+- Issue: Orders were created even when the requested quantity exceeded available product stock (e.g., ordering 100 Laptops when only 5 were in stock).
+- Fix: Added a stock check (`if (product.stock < item.quantity)`) that throws a 400 AppError with an insufficient stock message. Also deducted the ordered quantity from `product.stock` after all items pass validation.
+- Verification: POST /orders with quantity 100 for productId "1" now returns HTTP 400 ("Insufficient stock for Laptop...").
+
+BUG 2: Incorrect Tax and Total Calculation
+- Location: OrderService.createOrder()
+- Issue: `total` was assigned only the tax amount (`const total = tax;`) instead of adding tax to the subtotal.
+- Fix: Updated the calculation to `const total = subtotal + tax;`.
+- Verification: Ordering 2 Laptops (₹/$1000 each) now returns subtotal: 2000, tax: 200 (10%), and total: 2200.
+
+BUG 3: Broken Get Order By ID
+- Location: OrderService.getOrderById()
+- Issue: `this.orders.find(o => o.id)` checked only whether `o.id` was truthy instead of matching `orderId`.
+- Fix: Updated the predicate to `this.orders.find(o => o.id === orderId) || null`.
+- Verification: GET /orders/:id now returns the exact matching order for a valid ID and 404 for a non-existent ID.
+
+BUG 4: Status Filter Ignored
+- Location: OrderService.getOrders()
+- Issue: The optional `status` query parameter was ignored and all orders were always returned.
+- Fix: Added conditional filtering: `if (status) { return this.orders.filter(o => o.status === status); }` before returning all orders.
+- Verification: GET /orders?status=Completed returns only completed orders, and GET /orders?status=Pending returns only pending orders.

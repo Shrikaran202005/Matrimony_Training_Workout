@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class DriverApi {
-  private apiUrl = 'https://6b06468a57fa1297bb5596b3.mockapi.io/api/pratice/Drivers';
+  private apiUrl = 'https://6a17e0de1878294b597bfcac.mockapi.io/moviqo/drivers';
   constructor(private http: HttpClient) {}
 
 

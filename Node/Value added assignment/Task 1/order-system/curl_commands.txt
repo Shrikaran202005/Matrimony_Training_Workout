@@ -1,0 +1,21 @@
+# 1. Health check
+curl.exe http://localhost:3000/health
+
+# 2. POST /orders - Create valid order
+'{"items":[{"productId":"1","quantity":2}]}' | curl.exe -X POST http://localhost:3000/orders -H "Content-Type: application/json" -d "@-"
+
+# 3. POST /orders - Exceeding stock (should return 400)
+'{"items":[{"productId":"1","quantity":100}]}' | curl.exe -X POST http://localhost:3000/orders -H "Content-Type: application/json" -d "@-"
+
+# 4. GET /orders - List all orders
+curl.exe http://localhost:3000/orders
+
+# 5. GET /orders/:id - Get specific order (replace <ORDER_ID>)
+curl.exe http://localhost:3000/orders/<ORDER_ID>
+
+# 6. PUT /orders/:id/status - Update status (replace <ORDER_ID>)
+'{"status":"Completed"}' | curl.exe -X PUT http://localhost:3000/orders/<ORDER_ID>/status -H "Content-Type: application/json" -d "@-"
+
+# 7. GET /orders?status=... - Filter by status
+curl.exe "http://localhost:3000/orders?status=Completed"
+curl.exe "http://localhost:3000/orders?status=Pending"
