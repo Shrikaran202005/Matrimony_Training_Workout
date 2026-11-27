@@ -1,0 +1,71 @@
+MOCK API SETUP - Weather Dashboard (Node.js + TypeScript)
+
+1. PLATFORM & PROJECT DETAILS
+- Service: MockAPI.io (https://mockapi.io)
+- Project Name: weather-api
+- Resource Name: cities
+- Endpoint URL: https://<YOUR_PROJECT_ID>.mockapi.io/api/v1/cities
+
+2. ENVIRONMENT CONFIGURATION (.env)
+- MOCK_API_URL=https://<YOUR_PROJECT_ID>.mockapi.io/api/v1/cities
+- COLD_ALERT_THRESHOLD=5
+
+3. MOCK DATA SEEDED (6 CITIES)
+[
+  {
+    "id": 1,
+    "city": "London",
+    "temperature": 8,
+    "humidity": 75,
+    "condition": "Cloudy",
+    "date": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "city": "Paris",
+    "temperature": 12,
+    "humidity": 65,
+    "condition": "Rainy",
+    "date": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 3,
+    "city": "Tokyo",
+    "temperature": 15,
+    "humidity": 60,
+    "condition": "Clear",
+    "date": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 4,
+    "city": "Moscow",
+    "temperature": -5,
+    "humidity": 80,
+    "condition": "Snowy",
+    "date": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 5,
+    "city": "NewYork",
+    "temperature": 5,
+    "humidity": 55,
+    "condition": "Partly Cloudy",
+    "date": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": 6,
+    "city": "Dubai",
+    "temperature": 28,
+    "humidity": 40,
+    "condition": "Sunny",
+    "date": "2024-01-15T10:00:00Z"
+  }
+]
+
+4. API USAGE IN BACKEND (src/services/weather-api.service.ts)
+- Fetch all cities: GET {MOCK_API_URL}
+- Fetch single city: GET {MOCK_API_URL}?search=<cityName>
+
+5. VERIFICATION
+- Opening the Endpoint URL in a browser returns HTTP 200 with all 6 city objects.
+- Express backend successfully queries the endpoint via axios for /weather, /forecast/:city, and /weather/compare.

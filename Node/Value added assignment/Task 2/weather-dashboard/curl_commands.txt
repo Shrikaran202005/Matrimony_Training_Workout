@@ -1,0 +1,15 @@
+# Weather Dashboard API - cURL Test Commands (PowerShell)
+
+# Base URL: http://localhost:3000
+
+# 1. Health check
+curl.exe http://localhost:3000/health
+
+# 2. Feature 1 & 2: Multiple cities + formattedDate
+curl.exe "http://localhost:3000/weather?cities=London,Paris,Tokyo"
+
+# 3. Feature 3: 7-day forecast with coldAlert flags
+curl.exe "http://localhost:3000/forecast/London"
+
+# 4. Feature 4: Temperature comparison & cold alerts (Moscow is -5°C)
+curl.exe "http://localhost:3000/weather/compare?cities=London,Moscow"

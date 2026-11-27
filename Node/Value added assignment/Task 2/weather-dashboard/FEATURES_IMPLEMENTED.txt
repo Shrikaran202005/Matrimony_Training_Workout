@@ -1,0 +1,64 @@
+FEATURES IMPLEMENTED - Weather Dashboard (Node.js + TS)
+
+OVERVIEW
+This Weather Dashboard API integrates with MockAPI.io via axios
+and implements four core weather features in TypeScript using
+Express, Joi, and date-fns.
+
+------------------------------------------------------------
+FEATURE 1: Multiple Cities Weather (Parallel Fetching)
+------------------------------------------------------------
+- Endpoint: GET /weather?cities=London,Paris,Tokyo
+- Implementation: src/services/weather.service.ts -> getWeatherForMultipleCities()
+- How it works:
+  * Validates the `cities` query parameter using Joi (`citiesQuerySchema`).
+  * Splits the comma-separated city list and trims whitespace.
+  * Uses `Promise.all()` to query MockAPI.io (`GET {MOCK_API_URL}?search=<city>`)
+    for all requested cities concurrently via `WeatherApiService`.
+- Output: JSON array containing weather data for every requested city.
+------------------------------------------------------------
+FEATURE 2: Human-Readable Date Formatting
+------------------------------------------------------------
+- Triggered on: GET /weather?cities=...
+- Implementation:
+  * src/services/weather.service.ts -> formatWeatherData()
+  * src/utils/date-formatter.ts -> formatWeatherDate()
+- How it works:
+  * Parses each city's ISO date string (e.g., "2024-01-15T10:00:00Z").
+  * Formats it using `date-fns` (`format(date, "MMM dd, yyyy 'at' h:mm a")`).
+  * Attaches the result as a `formattedDate` field (e.g., "Jan 15, 2024 at 3:30 PM")
+    while preserving the original weather fields.
+- Output: Weather objects enriched with `formattedDate`.
+------------------------------------------------------------
+FEATURE 3: 7-Day Weather Forecast with Cold Alerts
+------------------------------------------------------------
+- Endpoint: GET /forecast/:city (also available at GET /weather/forecast/:city)
+- Implementation:
+  * src/services/weather.service.ts -> getForecast()
+  * src/utils/date-formatter.ts -> getNext7Days()
+  * src/utils/temperature-utils.ts -> isColdAlert()
+- How it works:
+  * Fetches the city's base weather data from MockAPI.io.
+  * Generates the next 7 calendar dates (`yyyy-MM-dd`) using `getNext7Days()`.
+  * Keeps Day 1 at the base temperature and applies a random daily variation
+    between -5°C and +5°C for Days 2 through 7.
+  * Evaluates each day against `COLD_ALERT_THRESHOLD` (5°C from `.env`),
+    setting `coldAlert: true` whenever temperature is below 5°C.
+- Output: Object containing `city` and a 7-element `days` array with `date`,
+  `temperature`, `condition`, and `coldAlert`.
+------------------------------------------------------------
+FEATURE 4: Temperature Comparison & Cold Alerts
+------------------------------------------------------------
+- Endpoint: GET /weather/compare?cities=London,Moscow
+- Implementation:
+  * src/services/weather.service.ts -> compareTemperatures()
+  * src/utils/temperature-utils.ts -> findWarmerCity(),
+    calculateTemperatureDifference(), getCitiesWithColdAlerts()
+- How it works:
+  * Validates that at least two cities are supplied (returns HTTP 400 otherwise).
+  * Fetches both cities in parallel from MockAPI.io using `Promise.all()`.
+  * Determines the warmer city, computes the absolute temperature difference,
+    and lists any compared cities with temperatures below `COLD_ALERT_THRESHOLD` (5°C).
+- Output: JSON object containing `city1`, `city2`, `temp1`, `temp2`,
+  `warmerCity`, `difference`, and `coldAlerts`.
+
