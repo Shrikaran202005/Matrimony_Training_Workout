@@ -59,3 +59,5 @@ package-lock.json (Optional: some prefer to keep this, but standard Angular igno
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+uploads/
