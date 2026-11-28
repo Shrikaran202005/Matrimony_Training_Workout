@@ -27,7 +27,7 @@ export const fileValidationSchema = Joi.object<FileValidationRequest>({
  */
 export function validateFile(file: Express.Multer.File): { error?: string } {
   const { error } = fileValidationSchema.validate({
-    filename: file.filename,
+    filename: file.filename || file.originalname,
     mimetype: file.mimetype,
     size: file.size
   });

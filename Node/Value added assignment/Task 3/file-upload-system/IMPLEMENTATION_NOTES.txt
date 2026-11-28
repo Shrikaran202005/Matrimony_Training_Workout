@@ -1,0 +1,86 @@
+IMPLEMENTATION NOTES - FILE UPLOAD & IMAGE PROCESSING SYSTEM
+
+--------------------------------------------------------------------------------
+1. OVERVIEW OF THE 5 TODOs (src/services/file.service.ts & image.service.ts)
+--------------------------------------------------------------------------------
+
+TODO 1: Handle File Upload with Validation (uploadFile)
+- Validates the incoming Express.Multer.File object using Joi via validateFile().
+- If validation fails (invalid MIME type or file size exceeding MAX_FILE_SIZE),
+  the temporary file saved by multer in uploads/originals/ is removed from disk
+  and an error response ({ success: false, message, error }) is returned.
+- Generates a unique UUID v4 identifier and builds the FileMetadata object
+  containing original display name, MIME type, file size, ISO timestamp, and
+  relative file paths under versions.
+- Checks if the uploaded file is an image using isImage(file.mimetype). If true,
+  calls ImageService.processImage() to generate three resized image variants
+  (thumbnail: 100x100, medium: 300x300, large: 800x800) and attaches their
+  paths to metadata.versions.
+- Pushes the metadata object into the in-memory files array and returns a
+  success UploadResponse.
+
+TODO 2: List All Files (listFiles)
+- Returns the complete array of FileMetadata objects currently stored in memory
+  for the GET /files endpoint.
+
+TODO 3: Get File by ID (getFile)
+- Searches the files array using Array.prototype.find() for a record matching
+  the requested fileId.
+- Returns the matching FileMetadata object if found, or null (which triggers a
+  404 Not Found response in the route handler).
+
+TODO 4: Delete File (deleteFile)
+- Locates the file entry by fileId in the files array; returns false if not
+  found.
+- Removes the metadata entry from the in-memory array using splice().
+- Iterates through all stored paths in metadata.versions (original plus
+  thumbnail, medium, and large for images) and deletes each physical file from
+  disk using fs-extra (fs.remove) so no orphaned files remain.
+- Returns true upon successful deletion.
+
+TODO 5: Get Upload Statistics (getStatistics)
+- Computes aggregate metrics across all stored files for GET /files/stats/overview:
+  * totalFiles: Total count of uploaded files in memory.
+  * totalSize: Combined size of all uploaded files converted from bytes to
+    megabytes (MB), rounded to 2 decimal places.
+  * imageCount: Count of files whose MIME type begins with "image/".
+
+--------------------------------------------------------------------------------
+2. IMAGE PROCESSING IMPLEMENTATION (src/services/image.service.ts)
+--------------------------------------------------------------------------------
+
+- Reads the uploaded original image buffer from disk using fs-extra.
+- Runs three Sharp resizing pipelines:
+  * Thumbnail (100x100): Uses fit: 'cover' to crop cleanly to square dimensions
+    and saves as JPEG at quality 80 in uploads/thumbnails/.
+  * Medium (300x300): Uses fit: 'cover' and saves as JPEG at quality 85 in
+    uploads/medium/.
+  * Large (800x800): Uses fit: 'inside' to preserve original aspect ratio
+    within an 800x800 bounding box and saves as JPEG at quality 90 in
+    uploads/large/.
+- Returns the relative paths for each generated version.
+
+--------------------------------------------------------------------------------
+3. EXPLANATION OF CORE PACKAGES
+--------------------------------------------------------------------------------
+
+1. multer (Multipart Form-Data & Disk Storage)
+   - Purpose: Middleware for handling multipart/form-data file uploads in Express.
+   - Implementation: Configured in src/middleware/upload.ts with diskStorage to
+     save incoming files to uploads/originals/ using a collision-free filename
+     format (<uuid>-<sanitized-originalname><ext>) and an upload size cap read
+     from MAX_FILE_SIZE.
+
+2. sharp (High-Performance Image Processing)
+   - Purpose: Fast native Node.js image resizing, cropping, and compression
+     powered by libvips.
+   - Implementation: Used in src/services/image.service.ts to convert uploaded
+     images into standardized thumbnail (100x100), medium (300x300), and large
+     (800x800) versions with tuned fit modes and JPEG quality settings.
+
+3. joi (Schema-Based Input Validation)
+   - Purpose: Declarative data validation with custom error messaging.
+   - Implementation: Configured in src/middleware/validation.ts to enforce
+     strict rules on filename, allowed MIME types (image/jpeg, image/png,
+     application/pdf), and maximum file size (5MB) before processing or
+     persisting file metadata.

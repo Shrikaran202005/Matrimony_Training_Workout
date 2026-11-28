@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "File upload and image processing system",
   "main": "src/server.ts",
-  "type": "commonjs",
   "scripts": {
     "start": "ts-node src/server.ts",
     "dev": "nodemon --exec ts-node src/server.ts",
@@ -22,12 +21,10 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
     "@types/express": "^4.17.21",
     "@types/fs-extra": "^11.0.4",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.10.6",
-    "@types/uuid": "^10.0.0",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
